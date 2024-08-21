@@ -39,34 +39,32 @@ export default function Home() {
   const addItem = async (item) => {
     const docRef = doc(collection(firestore, 'inventory'), item)
     const docSnap = await getDoc(docRef)
-  
     if (docSnap.exists()) {
-      const {quantity} = docSnap.data()
-      await setDoc(docRef, {quantity: quanity + 1})
-      } else {
-        await setDoc(docRef, {quantity: 1});
-      }
-    
-    
-    await updateInventory();
+      const { quantity } = docSnap.data()
+      await setDoc(docRef, { quantity: quantity + 1 })
+    } else {
+      await setDoc(docRef, { quantity: 1 })
+    }
+    await updateInventory()
   }
+  
   
 
   const removeItem = async (item) => {
     const docRef = doc(collection(firestore, 'inventory'), item)
     const docSnap = await getDoc(docRef)
-  
     if (docSnap.exists()) {
-      const {quantity} = docSnap.data();
+      const { quantity } = docSnap.data()
       if (quantity === 1) {
-        await deleteDoc(docRef);
+        await deleteDoc(docRef)
       } else {
-        await setDoc(docRef, {quantity: quantity - 1});
+        await setDoc(docRef, { quantity: quantity - 1 })
       }
     }
-    
-    await updateInventory();
+    await updateInventory()
   }
+  
+  
 
   useEffect(() => {
     updateInventory()
@@ -85,9 +83,6 @@ export default function Home() {
       alignItems= "center"
       gap ={2}
     >
-      <Typography variant="h1">
-        PANTRY TRACKER
-      </Typography>
       <Modal 
         open={open} 
         onClose={handleClose}
